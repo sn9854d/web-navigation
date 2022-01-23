@@ -40,10 +40,14 @@ class BookRouterDelegate extends RouterDelegate<BookRoutePath>
         onPopPage: (route, result) {
           if (!route.didPop(result)) return false;
 
-          selectedBook = null;
-          selectedAuthor = null;
+          var data = route.settings.name;
+
+          if (data == AuthorPage.routeName) selectedAuthor = null;
+
+          if (data == BookDetailPage.routeName) selectedBook = null;
 
           show404 = false;
+
           notifyListeners();
 
           return true;

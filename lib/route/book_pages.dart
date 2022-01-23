@@ -28,6 +28,11 @@ class BookDetailPage extends Page {
   BookDetailPage(this.book, this.handleAuthorTapped)
       : super(key: ValueKey(book));
 
+  static const String routeName = 'BookDetailPage';
+
+  @override
+  String get name => routeName;
+
   @override
   Route createRoute(BuildContext context) {
     return PageRouteBuilder(
@@ -55,6 +60,11 @@ class AuthorPage extends Page {
   final Author? author;
 
   AuthorPage({this.author}) : super(key: ValueKey(author));
+
+  static const String routeName = 'AuthorPage';
+
+  @override
+  String get name => routeName;
 
   @override
   Route createRoute(BuildContext context) {

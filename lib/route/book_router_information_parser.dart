@@ -41,7 +41,7 @@ class BookRouteInformationParser extends RouteInformationParser<BookRoutePath> {
     }
     if (configuration.isHomePage) return const RouteInformation(location: '/');
     if (configuration.isUnknown) {
-      return const RouteInformation(location: '/');
+      return const RouteInformation(location: '/unknown');
     }
   }
 }

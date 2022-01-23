@@ -23,7 +23,6 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp.router(
       routeInformationParser: _routeIR,
       routerDelegate: _routerDelegate,
-      title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
