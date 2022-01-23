@@ -25,7 +25,7 @@ class BookRouteInformationParser extends RouteInformationParser<BookRoutePath> {
 
       // handle '/author/:authorSlug'
       var authorId = int.tryParse(uri.pathSegments[1]);
-      return BookRoutePath.authorPage(authorId, '');
+      return BookRoutePath.authorPage(authorId);
     }
 
     return BookRoutePath.unknown();
@@ -41,7 +41,7 @@ class BookRouteInformationParser extends RouteInformationParser<BookRoutePath> {
     }
     if (configuration.isHomePage) return const RouteInformation(location: '/');
     if (configuration.isUnknown) {
-      return const RouteInformation(location: '/404');
+      return const RouteInformation(location: '/');
     }
   }
 }

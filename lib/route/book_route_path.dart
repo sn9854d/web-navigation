@@ -21,8 +21,9 @@ class BookRoutePath {
         authorId = null,
         isUnknown = true;
 
-  BookRoutePath.authorPage(this.authorId, this.slug)
+  BookRoutePath.authorPage(this.authorId)
       : id = null,
+        slug = null,
         isUnknown = false;
 
   bool get isHomePage => slug == null && isUnknown == false;

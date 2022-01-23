@@ -96,7 +96,7 @@ class BookRouterDelegate extends RouterDelegate<BookRoutePath>
       return BookRoutePath.unknown();
     }
     if (selectedAuthor != null) {
-      return BookRoutePath.authorPage(selectedAuthor?.id, selectedBook?.slug);
+      return BookRoutePath.authorPage(selectedAuthor?.id);
     }
     if (selectedBook != null) {
       BookRoutePath.detailPage(selectedBook?.slug);
