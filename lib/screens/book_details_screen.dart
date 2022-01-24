@@ -3,8 +3,8 @@ import 'package:book_app_nav_2/model/book.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-class BookdDetailsScreen extends StatelessWidget {
-  const BookdDetailsScreen(
+class BookDetailScreen extends StatelessWidget {
+  const BookDetailScreen(
       {Key? key, required this.book, required this.handleAuthorTapped})
       : super(key: key);
   final Book book;

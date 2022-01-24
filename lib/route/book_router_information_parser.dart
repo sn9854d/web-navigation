@@ -13,7 +13,7 @@ class BookRouteInformationParser extends RouteInformationParser<BookRoutePath> {
     }
 
     // handle '/<something>/:<somethig-slug>
-    if (uri.pathSegments.length >= 2) {
+    if (uri.pathSegments.length == 2) {
       if (uri.pathSegments[0] != 'book' && uri.pathSegments[0] != 'author') {
         return BookRoutePath.unknown();
       }
@@ -24,8 +24,12 @@ class BookRouteInformationParser extends RouteInformationParser<BookRoutePath> {
       }
 
       // handle '/author/:authorSlug'
-      var authorId = int.tryParse(uri.pathSegments[1]);
-      return BookRoutePath.authorPage(authorId);
+      // --> change <--
+      if (uri.pathSegments[0] == 'author') {
+        var authorId = int.tryParse(uri.pathSegments[1]);
+        return BookRoutePath.authorPage(authorId);
+      }
+      return BookRoutePath.unknown();
     }
 
     return BookRoutePath.unknown();

@@ -36,11 +36,12 @@ class BookDetailPage extends Page {
   @override
   Route createRoute(BuildContext context) {
     return PageRouteBuilder(
-        pageBuilder: (context, anim1, anim2) => BookdDetailsScreen(
-              book: book,
-              handleAuthorTapped: handleAuthorTapped,
-            ),
-        settings: this);
+      pageBuilder: (context, anim1, anim2) => BookDetailScreen(
+        book: book,
+        handleAuthorTapped: handleAuthorTapped,
+      ),
+      settings: this,
+    );
   }
 }
 

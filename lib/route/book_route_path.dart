@@ -10,8 +10,8 @@ class BookRoutePath {
         authorId = null,
         isUnknown = false;
 
-  BookRoutePath.detailPage(this.slug, {int? selctedBookId})
-      : id = selctedBookId,
+  BookRoutePath.detailPage(this.slug)
+      : id = null,
         authorId = null,
         isUnknown = false;
 

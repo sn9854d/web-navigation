@@ -7,60 +7,61 @@ import 'package:flutter/material.dart';
 
 class BookRouterDelegate extends RouterDelegate<BookRoutePath>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin {
-  final GlobalKey<NavigatorState> _naviagationKey;
-
-  BookRouterDelegate() : _naviagationKey = GlobalKey<NavigatorState>();
-
-  Book? selectedBook;
+  final GlobalKey<NavigatorState> naviagationKey;
+  Book? _selectedBook;
   bool show404 = false;
-  Author? selectedAuthor;
+  Author? _selectedAuthor;
+
+  BookRouterDelegate() : naviagationKey = GlobalKey<NavigatorState>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Navigator(
+      key: naviagationKey,
+      pages: [
+        BookListPage(books, handleBookTapped),
+        if (_selectedBook != null) BookDetailPage(_selectedBook!, handleAuthor),
+        if (_selectedAuthor != null) AuthorPage(author: _selectedAuthor),
+        if (show404) const UnknowPage(),
+      ],
+      onPopPage: (route, result) {
+        if (!route.didPop(result)) return false;
+
+        var data = route.settings.name;
+
+        if (data == AuthorPage.routeName) _selectedAuthor = null;
+
+        if (data == BookDetailPage.routeName) _selectedBook = null;
+
+        show404 = false;
+
+        notifyListeners();
+
+        return true;
+      },
+    );
+  }
 
   void handleBookTapped(Book book) {
-    selectedBook = book;
+    _selectedBook = book;
 
     notifyListeners();
   }
 
   void handleAuthor(Author author) {
-    selectedAuthor = author;
+    _selectedAuthor = author;
 
     notifyListeners();
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Navigator(
-        key: _naviagationKey,
-        pages: [
-          BookListPage(books, handleBookTapped),
-          if (selectedBook != null) BookDetailPage(selectedBook!, handleAuthor),
-          if (selectedAuthor != null) AuthorPage(author: selectedAuthor),
-          if (show404) const UnknowPage(),
-        ],
-        onPopPage: (route, result) {
-          if (!route.didPop(result)) return false;
-
-          var data = route.settings.name;
-
-          if (data == AuthorPage.routeName) selectedAuthor = null;
-
-          if (data == BookDetailPage.routeName) selectedBook = null;
-
-          show404 = false;
-
-          notifyListeners();
-
-          return true;
-        });
-  }
-
-  @override
-  GlobalKey<NavigatorState>? get navigatorKey => _naviagationKey;
+  GlobalKey<NavigatorState>? get navigatorKey => naviagationKey;
 
   @override
   Future<void> setNewRoutePath(BookRoutePath configuration) async {
     if (configuration.isUnknowPage) {
-      selectedBook = null;
+      _selectedBook = null;
+      _selectedAuthor = null;
       show404 = true;
 
       return;
@@ -73,22 +74,22 @@ class BookRouterDelegate extends RouterDelegate<BookRoutePath>
         show404 = true;
         return;
       }
-      selectedBook = books[index];
+      _selectedBook = books[index];
     } else {
-      selectedBook = null;
+      _selectedBook = null;
     }
 
     if (configuration.isAuthorPage) {
       var index = configuration.authorId;
 
-      if (index! < -1 || index > authorList.length - 1) {
+      if (index! < 0 || index > authorList.length - 1) {
         show404 = true;
         return;
       }
 
-      selectedAuthor = authorList[index];
+      _selectedAuthor = authorList[index];
     } else {
-      selectedAuthor = null;
+      _selectedAuthor = null;
     }
 
     show404 = false;
@@ -98,13 +99,12 @@ class BookRouterDelegate extends RouterDelegate<BookRoutePath>
   BookRoutePath? get currentConfiguration {
     if (show404) {
       return BookRoutePath.unknown();
+    } else if (_selectedAuthor != null) {
+      return BookRoutePath.authorPage(_selectedAuthor?.id);
+    } else if (_selectedBook != null) {
+      BookRoutePath.detailPage(_selectedBook?.slug);
+    } else {
+      return BookRoutePath.homePage();
     }
-    if (selectedAuthor != null) {
-      return BookRoutePath.authorPage(selectedAuthor?.id);
-    }
-    if (selectedBook != null) {
-      BookRoutePath.detailPage(selectedBook?.slug);
-    }
-    return BookRoutePath.homePage();
   }
 }
